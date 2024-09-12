@@ -93,7 +93,7 @@ class BaseTrainer:
         num_tries = 1
         for i in range(num_tries):
             try:
-                checkpoint_path = 'F:/single-object-tracking-tir/ODTrack_ep0300.pth.tar'
+                checkpoint_path = 'ODTrack_ep0300.pth.tar'
                 checkpoint_dict = torch.load(checkpoint_path, map_location='cpu')
                 self.actor.net.load_state_dict(checkpoint_dict['net'], strict=False)
 

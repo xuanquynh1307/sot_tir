@@ -112,10 +112,10 @@ class ODTrackActor(BaseActor):
         for i, value in enumerate(gt_labels.view(-1)):
             if value != 0:
                 try:
-                    giou_loss[i], iou[i] = self.objective['giou'](pred_boxes_vec[i], gt_boxes_vec[i])  # (BN,4) (BN,4)
+                    giou_loss[i], iou[i] = self.objective['giou'](pred_boxes_vec[i].view(1, -1), gt_boxes_vec[i].view(-1, 1))  # (BN,4) (BN,4)
                 except:
                     giou_loss[i], iou[i] = torch.tensor(0.0).cuda(), torch.tensor(0.0).cuda()
-                l1_loss[i] = self.objective['l1'](pred_boxes_vec[i], gt_boxes_vec[i])  # (BN,4) (BN,4)
+                l1_loss[i] = self.objective['l1'](pred_boxes_vec[i].view(-1, 1), gt_boxes_vec[i].view(-1, 1))  # (BN,4) (BN,4)
                 if 'score_map' in pred_dict:
                     focal_loss[i] = self.objective['focal'](pred_dict['score_map'][i], gt_gaussian_maps[i])
 
